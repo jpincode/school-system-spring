@@ -6,23 +6,23 @@ import org.springframework.stereotype.Service;
 public class ExceptionsService {
 
     public void throwIfStudentExists(String registration) {
-        throw new IllegalArgumentException("Student with registration '" + registration + "' already exists.");
+        throw new IllegalArgumentException("O aluno com a matrícula '" + registration + "' já existe.");
     }
 
     public void throwIfStudentNotFound(String registration) {
-        throw new IllegalArgumentException("Student with registration '" + registration + "' does not exist.");
+        throw new IllegalArgumentException("O aluno com a matrícula '" + registration + "' não existe.");
     }
 
     public void throwNameAlreadyExists(String name) {
-        throw new IllegalArgumentException("Discipline with name '" + name + "' already exists.");
+        throw new IllegalArgumentException("A disciplina com o nome '" + name + "' já existe.");
     }
 
     public void throwCodeAlreadyExists(String code) {
-        throw new IllegalArgumentException("Discipline with code '" + code + "' already exists.");
+        throw new IllegalArgumentException("A disciplina com o código '" + code + "' já existe.");
     }
 
     public void throwDisciplineNotFound(String code) {
-        throw new IllegalArgumentException("Discipline with code '" + code + "' does not exist.");
+        throw new IllegalArgumentException("A disciplina com o código '" + code + "' não existe.");
     }
 
 }

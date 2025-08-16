@@ -29,7 +29,7 @@ public class StudentController {
         studentService.addStudent(studentDTO);
 
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body("Student '" + studentDTO.getName() + "' added successfully");
+                .body("Aluno '" + studentDTO.getName() + "' adicionado com sucesso");
     }
 
     @PutMapping("/update")
@@ -37,7 +37,7 @@ public class StudentController {
         studentService.updateStudent(studentDTO);
 
         return ResponseEntity.status(HttpStatus.OK)
-                .body("Student with registration '" + studentDTO.getRegistration() + "' updated successfully");
+                .body("Aluno com a matrícula '" + studentDTO.getRegistration() + "' atualizado com sucesso");
     }
 
     @DeleteMapping("/delete/{registration}")
@@ -45,7 +45,7 @@ public class StudentController {
         studentService.deleteStudent(registration);
 
         return ResponseEntity.status(HttpStatus.OK)
-                .body("Student with registration '" + registration + "' deleted successfully");
+                .body("Aluno com a matrícula '" + registration + "' deletado com sucesso");
     }
 
     @GetMapping("/all")

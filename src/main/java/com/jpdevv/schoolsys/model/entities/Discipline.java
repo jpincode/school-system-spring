@@ -22,9 +22,7 @@ public class Discipline {
     @Column(length = 10)
     private String code, workload;
 
-    public Discipline() {
-        // Default constructor for JPA
-    }
+    public Discipline(){};
 
     public Discipline(String name, String code, String workload) {
         this.name = name;

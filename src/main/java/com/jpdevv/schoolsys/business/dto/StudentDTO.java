@@ -9,16 +9,16 @@ import lombok.Setter;
 @Setter
 public class StudentDTO {
 
-    @NotBlank(message = "Registration is required")
+    @NotBlank(message = "A matrícula é obrigatória")
     private String registration;
 
-    @NotBlank(message = "Name is required")
+    @NotBlank(message = "O nome é obrigatório")
     private String name;
 
-    @Email(message = "Email should be valid")
+    @Email(message = "O e-mail deve ser válido")
     private String email;
 
-    @NotBlank(message = "Address is required")
+    @NotBlank(message = "O endereço é obrigatório")
     private String address;
 
     public StudentDTO(String registration, String name, String email, String address) {

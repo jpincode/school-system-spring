@@ -7,13 +7,13 @@ import lombok.Setter;
 @Getter
 @Setter
 public class DisciplineDTO {
-    @NotBlank(message = "Code is required")
+    @NotBlank(message = "O código é obrigatório")
     private String code;
 
-    @NotBlank(message = "Name is required")
+    @NotBlank(message = "O nome é obrigatório")
     private String name;
 
-    @NotBlank(message = "Workload is required")
+    @NotBlank(message = "A carga horária é obrigatória")
     private String workload;
 
     public DisciplineDTO(String code, String name, String workload) {

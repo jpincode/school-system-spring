@@ -21,9 +21,7 @@ public class Student {
 
     private String registration, email, address;
 
-    public Student() {
-        // Default constructor for JPA
-    }
+    public Student(){};
 
     public Student(String registration, String name, String email, String address) {
         this.registration = registration;

@@ -27,21 +27,21 @@ public class DisciplineController {
     public ResponseEntity<String> addDiscipline(@RequestBody DisciplineDTO disciplineDTO) {
         disciplineService.addDiscipline(disciplineDTO);
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body("Discipline '" + disciplineDTO.getName() + "' added successfully");
+                .body("Disciplina '" + disciplineDTO.getName() + "' adicionada com sucesso");
     }
 
     @PutMapping("/update")
     public ResponseEntity<String> updateDiscipline(@RequestBody DisciplineDTO disciplineDTO) {
         disciplineService.updateDiscipline(disciplineDTO);
         return ResponseEntity.status(HttpStatus.OK)
-                .body("Discipline with code '" + disciplineDTO.getCode() + "' updated successfully");
+                .body("Disciplina com o código '" + disciplineDTO.getCode() + "' atualizada com sucesso");
     }
 
     @DeleteMapping("/delete/{code}")
     public ResponseEntity<String> deleteDiscipline(@PathVariable String code) {
         disciplineService.deleteDiscipline(code);
         return ResponseEntity.status(HttpStatus.OK)
-                .body("Discipline with code '" + code + "' deleted successfully");
+                .body("Disciplina com o código '" + code + "' deletada com sucesso");
     }
 
     @GetMapping("/all")

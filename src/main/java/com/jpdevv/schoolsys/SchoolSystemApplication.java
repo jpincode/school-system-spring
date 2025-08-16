@@ -13,7 +13,7 @@ public class SchoolSystemApplication implements CommandLineRunner{
 
 	@Override
 	public void run(String... args) throws Exception {
-		System.out.println("School System Application has started successfully!");
+		System.out.println("Aplicação School System iniciada com sucesso!");
 	}
 
 }
