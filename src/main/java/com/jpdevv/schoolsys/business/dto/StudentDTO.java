@@ -1,4 +1,4 @@
-package com.jpdevv.school_system.business.dto;
+package com.jpdevv.schoolsys.business.dto;
 
 public class StudentDTO {
     private String registration;

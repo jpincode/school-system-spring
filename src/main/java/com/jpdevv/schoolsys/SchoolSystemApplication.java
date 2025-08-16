@@ -1,4 +1,4 @@
-package com.jpdevv.school_system;
+package com.jpdevv.schoolsys;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
