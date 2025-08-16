@@ -1,9 +1,24 @@
 package com.jpdevv.schoolsys.business.dto;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class StudentDTO {
+
+    @NotBlank(message = "Registration is required")
     private String registration;
+
+    @NotBlank(message = "Name is required")
     private String name;
+
+    @Email(message = "Email should be valid")
     private String email;
+
+    @NotBlank(message = "Address is required")
     private String address;
 
     public StudentDTO(String registration, String name, String email, String address) {
@@ -13,36 +28,4 @@ public class StudentDTO {
         this.address = address;
     }
 
-    // Getters and Setters
-    public String getRegistration() {
-        return registration;
-    }
-
-    public void setRegistration(String registration) {
-        this.registration = registration;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
 }

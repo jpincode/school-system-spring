@@ -13,4 +13,16 @@ public class ExceptionsService {
         throw new IllegalArgumentException("Student with registration '" + registration + "' does not exist.");
     }
 
+    public void throwNameAlreadyExists(String name) {
+        throw new IllegalArgumentException("Discipline with name '" + name + "' already exists.");
+    }
+
+    public void throwCodeAlreadyExists(String code) {
+        throw new IllegalArgumentException("Discipline with code '" + code + "' already exists.");
+    }
+
+    public void throwDisciplineNotFound(String code) {
+        throw new IllegalArgumentException("Discipline with code '" + code + "' does not exist.");
+    }
+
 }

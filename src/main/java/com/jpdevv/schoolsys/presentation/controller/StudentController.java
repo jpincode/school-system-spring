@@ -2,6 +2,7 @@ package com.jpdevv.schoolsys.presentation.controller;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,11 +21,8 @@ import com.jpdevv.schoolsys.business.services.StudentService;
 @RestController
 @RequestMapping("/students")
 public class StudentController {
-    private final StudentService studentService;
-
-    public StudentController(StudentService studentService) {
-        this.studentService = studentService;
-    }
+    @Autowired
+    private StudentService studentService;
 
     @PostMapping("/add")
     public ResponseEntity<String> addStudent(@RequestBody StudentDTO studentDTO) {

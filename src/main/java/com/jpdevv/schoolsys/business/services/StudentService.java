@@ -17,10 +17,12 @@ import jakarta.transaction.Transactional;
 public class StudentService {
     private final StudentRepository studentRepository;
     private final ExceptionsService exceptionsService;
+    private final ConverterService converterService;
 
-    public StudentService(StudentRepository studentRepository, ExceptionsService exceptionsService) {
+    public StudentService(StudentRepository studentRepository, ExceptionsService exceptionsService, ConverterService converterService) {
         this.studentRepository = studentRepository;
         this.exceptionsService = exceptionsService;
+        this.converterService = converterService;
     }
 
     public void addStudent(StudentDTO studentDTO) {
@@ -29,12 +31,7 @@ public class StudentService {
             exceptionsService.throwIfStudentExists(studentDTO.getRegistration());
         }
 
-        Student student = new Student(
-            studentDTO.getRegistration(),
-            studentDTO.getName(),
-            studentDTO.getEmail(),
-            studentDTO.getAddress()
-        );
+        Student student = converterService.toStudent(studentDTO);
 
         studentRepository.save(student);
     }
@@ -48,9 +45,6 @@ public class StudentService {
 
         Student student = existingStudent.get();
         
-        if(StringUtils.hasText(studentDTO.getRegistration()) && !studentDTO.getRegistration().equals(student.getRegistration())) {
-            student.setRegistration(studentDTO.getRegistration());
-        }
         if(StringUtils.hasText(studentDTO.getName()) && !studentDTO.getName().equals(student.getName())) {
             student.setName(studentDTO.getName());
         }
@@ -71,19 +65,14 @@ public class StudentService {
             exceptionsService.throwIfStudentNotFound(registration);
         }
 
-        studentRepository.deleteByRegistration(registration);
+        studentRepository.delete(student.get());
     }
 
     public List<StudentDTO> findAll() {
         List<StudentDTO> studentsDTO = new ArrayList<>();
 
         studentRepository.findAll().forEach(students -> {
-            StudentDTO studentDTO = new StudentDTO(
-                students.getRegistration(),
-                students.getName(),
-                students.getEmail(),
-                students.getAddress()
-            );
+            StudentDTO studentDTO = converterService.toStudentDTO(students);
             studentsDTO.add(studentDTO);
         });
 
