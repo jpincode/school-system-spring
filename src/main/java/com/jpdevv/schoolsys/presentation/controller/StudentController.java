@@ -19,7 +19,7 @@ import com.jpdevv.schoolsys.business.services.StudentService;
 
 
 @RestController
-@RequestMapping("/students")
+@RequestMapping("/api/students")
 public class StudentController {
     @Autowired
     private StudentService studentService;
