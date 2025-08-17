@@ -18,7 +18,7 @@ import com.jpdevv.schoolsys.business.dto.DisciplineDTO;
 import com.jpdevv.schoolsys.business.services.DisciplineService;
 
 @RestController
-@RequestMapping("/disciplines")
+@RequestMapping("/api/disciplines")
 public class DisciplineController {
     @Autowired
     private DisciplineService disciplineService;
