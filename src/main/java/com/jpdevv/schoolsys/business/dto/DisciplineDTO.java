@@ -7,6 +7,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class DisciplineDTO {
+    private Long id;
+
     @NotBlank(message = "Code is required")
     private String code;
 
@@ -21,5 +23,5 @@ public class DisciplineDTO {
         this.name = name;
         this.workload = workload;
     }
-    
+
 }

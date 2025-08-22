@@ -8,6 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class StudentDTO {
+    private Long id;
 
     @NotBlank(message = "Registration is required")
     private String registration;

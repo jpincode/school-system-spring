@@ -24,10 +24,9 @@ public class DisciplineController {
     private DisciplineService disciplineService;
     
     @PostMapping("/add")
-    public ResponseEntity<String> addDiscipline(@RequestBody DisciplineDTO disciplineDTO) {
+    public String addDiscipline(@RequestBody DisciplineDTO disciplineDTO) {
         disciplineService.addDiscipline(disciplineDTO);
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body("Discipline '" + disciplineDTO.getName() + "' added successfully");
+        return "Discipline '" + disciplineDTO.getName() + "' added successfully";
     }
 
     @PutMapping("/update")

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -15,15 +16,12 @@ import jakarta.transaction.Transactional;
 
 @Service
 public class StudentService {
-    private final StudentRepository studentRepository;
-    private final ExceptionsService exceptionsService;
-    private final ConverterService converterService;
-
-    public StudentService(StudentRepository studentRepository, ExceptionsService exceptionsService, ConverterService converterService) {
-        this.studentRepository = studentRepository;
-        this.exceptionsService = exceptionsService;
-        this.converterService = converterService;
-    }
+    @Autowired
+    private StudentRepository studentRepository;
+    @Autowired
+    private ExceptionsService exceptionsService;
+    @Autowired
+    private ConverterService converterService;
 
     public void addStudent(StudentDTO studentDTO) {
         Optional<Student> existingStudent = studentRepository.findByRegistration(studentDTO.getRegistration());

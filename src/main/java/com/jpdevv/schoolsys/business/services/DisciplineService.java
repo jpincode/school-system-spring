@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -15,15 +16,12 @@ import jakarta.transaction.Transactional;
 
 @Service
 public class DisciplineService {
-    private final DisciplineRepository disciplineRepository;
-    private final ExceptionsService exceptionsService;
-    private final ConverterService converterService;
-
-    public DisciplineService(DisciplineRepository disciplineRepository, ExceptionsService exceptionsService, ConverterService converterService) {
-        this.disciplineRepository = disciplineRepository;
-        this.exceptionsService = exceptionsService;
-        this.converterService = converterService;
-    }
+    @Autowired
+    private DisciplineRepository disciplineRepository;
+    @Autowired
+    private ExceptionsService exceptionsService;
+    @Autowired
+    private ConverterService converterService;
 
     public void addDiscipline(DisciplineDTO disciplineDTO) {
         Optional<Discipline> existingName = disciplineRepository.findByName(disciplineDTO.getName());
