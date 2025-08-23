@@ -29,4 +29,9 @@ public class StudentDTO {
         this.address = address;
     }
 
+    @Override
+    public String toString() {
+        return "StudentDTO [id=" + id + ", registration=" + registration + ", name=" + name + ", email=" + email
+                + ", address=" + address + "]";
+    }
 }

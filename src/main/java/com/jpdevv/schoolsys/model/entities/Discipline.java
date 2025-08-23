@@ -24,7 +24,8 @@ public class Discipline {
     private String name;
 
     @Column(length = 10)
-    private String code, workload;
+    private String code;
+    private String workload;
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Student> students;

@@ -2,6 +2,9 @@ package com.jpdevv.schoolsys.business.services;
 
 import java.util.Scanner;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class IOService {
     private Scanner scanner = new Scanner(System.in);
 

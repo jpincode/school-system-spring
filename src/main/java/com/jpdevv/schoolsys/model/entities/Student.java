@@ -19,7 +19,9 @@ public class Student {
     @Column(nullable = false)
     private String name;
 
-    private String registration, email, address;
+    private String registration;
+    private String email;
+    private String address;
 
     public Student() {
         // Default constructor for JPA

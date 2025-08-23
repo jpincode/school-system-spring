@@ -3,8 +3,6 @@ package com.jpdevv.schoolsys.presentation.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,22 +28,20 @@ public class DisciplineController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<String> updateDiscipline(@RequestBody DisciplineDTO disciplineDTO) {
+    public String updateDiscipline(@RequestBody DisciplineDTO disciplineDTO) {
         disciplineService.updateDiscipline(disciplineDTO);
-        return ResponseEntity.status(HttpStatus.OK)
-                .body("Discipline with code '" + disciplineDTO.getCode() + "' updated successfully");
+        return ("Discipline with code '" + disciplineDTO.getCode() + "' updated successfully");
     }
 
     @DeleteMapping("/delete/{code}")
-    public ResponseEntity<String> deleteDiscipline(@PathVariable String code) {
+    public String deleteDiscipline(@PathVariable String code) {
         disciplineService.deleteDiscipline(code);
-        return ResponseEntity.status(HttpStatus.OK)
-                .body("Discipline with code '" + code + "' deleted successfully");
+        return ("Discipline with code '" + code + "' deleted successfully");
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<DisciplineDTO>> getAllDisciplines() {
+    public List<DisciplineDTO> getAllDisciplines() {
         List<DisciplineDTO> disciplines = disciplineService.findAll();
-        return ResponseEntity.ok(disciplines);
+        return (disciplines);
     }
 }
