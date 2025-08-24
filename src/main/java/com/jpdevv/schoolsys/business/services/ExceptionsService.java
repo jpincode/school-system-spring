@@ -2,6 +2,8 @@ package com.jpdevv.schoolsys.business.services;
 
 import org.springframework.stereotype.Service;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class ExceptionsService {
 
@@ -10,7 +12,7 @@ public class ExceptionsService {
     }
 
     public void throwIfStudentNotFound(String registration) {
-        throw new IllegalArgumentException("Student with registration '" + registration + "' does not exist.");
+        throw new EntityNotFoundException("Student with registration '" + registration + "' does not exist.");
     }
 
     public void throwNameAlreadyExists(String name) {
@@ -22,7 +24,7 @@ public class ExceptionsService {
     }
 
     public void throwDisciplineNotFound(String code) {
-        throw new IllegalArgumentException("Discipline with code '" + code + "' does not exist.");
+        throw new EntityNotFoundException("Discipline with code '" + code + "' does not exist.");
     }
 
 }

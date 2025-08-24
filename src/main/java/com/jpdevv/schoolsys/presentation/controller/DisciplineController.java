@@ -23,6 +23,7 @@ public class DisciplineController {
     
     @PostMapping("/add")
     public String addDiscipline(@RequestBody DisciplineDTO disciplineDTO) {
+
         disciplineService.addDiscipline(disciplineDTO);
         return "Discipline '" + disciplineDTO.getName() + "' added successfully";
     }
@@ -44,4 +45,19 @@ public class DisciplineController {
         List<DisciplineDTO> disciplines = disciplineService.findAll();
         return (disciplines);
     }
+
+    @PostMapping("/{code}/students/{registration}")
+    public String enrollStudent(@PathVariable String code, @PathVariable String registration) {
+        disciplineService.enrollStudent(code, registration);
+        
+        return ("Student with registration '" + registration + "' enrolled in discipline with code '" + code + "' successfully");
+    }
+
+    @DeleteMapping("/{code}/students/{registration}")
+    public String unenrollStudent(@PathVariable String code, @PathVariable String registration) {
+        disciplineService.unenrollStudent(code, registration);
+        
+        return ("Student with registration '" + registration + "' unenrolled from discipline with code '" + code + "' successfully");
+    }
+    
 }

@@ -46,8 +46,10 @@ public class Menu {
             }
             case "1" -> showRegisterDiscipline();
             case "2" -> showRegisterStudent();
+            case "3" -> showEnrollMenu();
             case "4" -> showDeleteDiscipline();
             case "5" -> showDeleteStudent();
+            case "6" -> showUnenrollMenu();
             case "7" -> showUpdateDiscipline();
             case "8" -> showUpdateStudent();
             case "9" -> showListMenu();
@@ -98,9 +100,10 @@ public class Menu {
         ioService.print("--------------- REGISTER DISCIPLINE ---------------");
         String code = ioService.read("Discipline code: ");
         String name = ioService.read("Discipline name: ");
-        String workload = ioService.read("Maximum number of students: ");
+        String workload = ioService.read("Discipline workload: ");
 
-        DisciplineDTO discipline = new DisciplineDTO(code, name, workload);
+
+        DisciplineDTO discipline = new DisciplineDTO(code, name, workload, null);
         String result = disciplineController.addDiscipline(discipline);
         ioService.print(result);
         displayMainMenu();
@@ -120,10 +123,30 @@ public class Menu {
         ioService.print("If you do not want to change any item below, leave it blank.");
         String code = ioService.read("Discipline code: ");
         String name = ioService.read("New discipline name: ");
-        String workload = ioService.read("New maximum number of students: ");
+        String workload = ioService.read("New discipline workload: ");
 
-        DisciplineDTO discipline = new DisciplineDTO(code, name, workload);
+        DisciplineDTO discipline = new DisciplineDTO(code, name, workload, null);
         String result = disciplineController.updateDiscipline(discipline);
+        ioService.print(result);
+        displayMainMenu();
+    }
+
+    public void showEnrollMenu() {
+        ioService.print("--------------- ENROLL STUDENT IN DISCIPLINE ---------------");
+        String registration = ioService.read("Student registration: ");
+        String code = ioService.read("Discipline code: ");
+
+        String result = disciplineController.enrollStudent(code, registration);
+        ioService.print(result);
+        displayMainMenu();
+    }
+
+    public void showUnenrollMenu() {
+        ioService.print("--------------- UNENROLL STUDENT FROM DISCIPLINE ---------------");
+        String registration = ioService.read("Student registration: ");
+        String code = ioService.read("Discipline code: ");
+
+        String result = disciplineController.unenrollStudent(code, registration);
         ioService.print(result);
         displayMainMenu();
     }
@@ -148,15 +171,17 @@ public class Menu {
             }
             case "2" -> {
                 List<DisciplineDTO> result = disciplineController.getAllDisciplines();
+
                 StringBuilder sb = new StringBuilder("Registered Disciplines:\n");
-                for (DisciplineDTO discipline : result) {
-                    sb.append(discipline.toString()).append("\n");
-                    for (StudentDTO student : discipline.getStudents()) {
-                        if (discipline.getStudents().isEmpty()) {
-                            sb.append("    - No students enrolled.\n");
-                            break;
-                        } else {
-                            sb.append("    - ").append(student.toString()).append("\n");
+                for (DisciplineDTO disciplineDTO : result) {
+                    sb.append(disciplineDTO.toString()).append("\n");
+
+                    if(disciplineDTO.getStudents().isEmpty()) {
+                        sb.append("-   No students enrolled\n");
+                    } else {
+                        sb.append("-   Enrolled Students:\n");
+                        for(StudentDTO student : disciplineDTO.getStudents().get()) {
+                            sb.append("    * ").append(student.getName()).append(" (").append(student.getRegistration()).append(")\n");
                         }
                     }
                 }

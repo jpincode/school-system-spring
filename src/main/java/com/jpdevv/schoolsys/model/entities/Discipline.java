@@ -34,9 +34,9 @@ public class Discipline {
         // Default constructor for JPA
     }
 
-    public Discipline(String name, String code, String workload) {
-        this.name = name;
+    public Discipline(String code, String name, String workload) {
         this.code = code;
+        this.name = name;
         this.workload = workload;
     }
 }

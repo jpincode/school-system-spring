@@ -10,7 +10,9 @@ import org.springframework.util.StringUtils;
 
 import com.jpdevv.schoolsys.business.dto.DisciplineDTO;
 import com.jpdevv.schoolsys.model.entities.Discipline;
+import com.jpdevv.schoolsys.model.entities.Student;
 import com.jpdevv.schoolsys.model.repositories.DisciplineRepository;
+import com.jpdevv.schoolsys.model.repositories.StudentRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -18,6 +20,8 @@ import jakarta.transaction.Transactional;
 public class DisciplineService {
     @Autowired
     private DisciplineRepository disciplineRepository;
+    @Autowired
+    private StudentRepository studentRepository;
     @Autowired
     private ExceptionsService exceptionsService;
     @Autowired
@@ -50,7 +54,7 @@ public class DisciplineService {
         if(StringUtils.hasText(disciplineDTO.getName()) && !disciplineDTO.getName().equals(discipline.getName())) {
             discipline.setName(disciplineDTO.getName());
         }
-        if(disciplineDTO.getWorkload() != null && !disciplineDTO.getWorkload().equals(discipline.getWorkload())) {
+        if(StringUtils.hasText(disciplineDTO.getWorkload()) && !disciplineDTO.getWorkload().equals(discipline.getWorkload())) {
             discipline.setWorkload(disciplineDTO.getWorkload());
         }
 
@@ -69,12 +73,44 @@ public class DisciplineService {
 
     public List<DisciplineDTO> findAll() {
         List<DisciplineDTO> disciplinesDTO = new ArrayList<>();
-
+        
         disciplineRepository.findAll().forEach(disciplines -> {
             DisciplineDTO disciplineDTO = converterService.toDisciplineDTO(disciplines);
             disciplinesDTO.add(disciplineDTO);
         });
 
         return disciplinesDTO;
+    }
+
+    public void enrollStudent(String code, String registration) {
+        Optional<Student> student = studentRepository.findByRegistration(registration);
+        Optional<Discipline> discipline = disciplineRepository.findByCode(code);
+
+        if(student.isEmpty()) {
+            exceptionsService.throwIfStudentNotFound(registration);
+        }
+        if(discipline.isEmpty()) {
+            exceptionsService.throwDisciplineNotFound(code);
+        }
+
+        discipline.get().getStudents().add(student.get());
+
+        disciplineRepository.save(discipline.get());
+    }
+
+    public void unenrollStudent(String code, String registration) {
+        Optional<Student> student = studentRepository.findByRegistration(registration);
+        Optional<Discipline> discipline = disciplineRepository.findByCode(code);
+
+        if(student.isEmpty()) {
+            exceptionsService.throwIfStudentNotFound(registration);
+        }
+        if(discipline.isEmpty()) {
+            exceptionsService.throwDisciplineNotFound(code);
+        }
+
+        discipline.get().getStudents().remove(student.get());
+
+        disciplineRepository.save(discipline.get());
     }
 }

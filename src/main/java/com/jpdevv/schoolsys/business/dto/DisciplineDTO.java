@@ -1,8 +1,8 @@
 package com.jpdevv.schoolsys.business.dto;
 
 import java.util.List;
+import java.util.Optional;
 
-import jakarta.persistence.ManyToMany;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,22 +21,26 @@ public class DisciplineDTO {
     @NotBlank(message = "Workload is required")
     private String workload;
 
-    @ManyToMany(mappedBy = "disciplines")
     private List<StudentDTO> students;
 
-    public DisciplineDTO(String code, String name, String workload) {
+    public DisciplineDTO(String code, String name, String workload, List<StudentDTO> students) {
         this.code = code;
         this.name = name;
         this.workload = workload;
+        this.students = students;
     }
 
-    public List<StudentDTO> getStudents() {
-        return students;
+    public Optional<List<StudentDTO>> getStudents() {
+        return Optional.ofNullable(students);
+    }
+
+    public void addStudent(StudentDTO student) {
+        students.add(student);
     }
 
     @Override
     public String toString() {
-        return "DisciplineDTO [id=" + id + ", code=" + code + ", name=" + name + ", workload=" + workload + "]";
+        return "DisciplineDTO [code=" + code + ", name=" + name + ", workload=" + workload + "]";
     }
 
 }

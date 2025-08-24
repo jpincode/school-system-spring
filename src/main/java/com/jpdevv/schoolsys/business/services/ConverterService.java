@@ -14,7 +14,8 @@ public class ConverterService {
         return new DisciplineDTO(
             d.getCode(), 
             d.getName(), 
-            d.getWorkload()
+            d.getWorkload(),
+            d.getStudents().stream().map(this::toStudentDTO).toList()
         );
     }
 
