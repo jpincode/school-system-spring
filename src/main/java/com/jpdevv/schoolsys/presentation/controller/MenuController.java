@@ -1,18 +1,16 @@
-package com.jpdevv.schoolsys.presentation.view;
+package com.jpdevv.schoolsys.presentation.controller;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 
 import com.jpdevv.schoolsys.business.dto.DisciplineDTO;
 import com.jpdevv.schoolsys.business.dto.StudentDTO;
 import com.jpdevv.schoolsys.business.services.IOService;
-import com.jpdevv.schoolsys.presentation.controller.DisciplineController;
-import com.jpdevv.schoolsys.presentation.controller.StudentController;
 
-@Component
-public class Menu {
+@Controller
+public class MenuController {
     /* 
      * There is still a need to create the methods to enroll students in a discipline
      * and to unenroll them from a discipline.
