@@ -11,11 +11,6 @@ import com.jpdevv.schoolsys.business.services.IOService;
 
 @Controller
 public class MenuController {
-    /* 
-     * There is still a need to create the methods to enroll students in a discipline
-     * and to unenroll them from a discipline.
-    */
-
     @Autowired
     private IOService ioService;
     @Autowired
