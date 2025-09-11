@@ -3,7 +3,6 @@ package com.jpdevv.schoolsys.presentation.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.jpdevv.schoolsys.business.dto.DisciplineDTO;
 import com.jpdevv.schoolsys.business.services.DisciplineService;
 
-@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class DisciplineController {
     @Autowired
