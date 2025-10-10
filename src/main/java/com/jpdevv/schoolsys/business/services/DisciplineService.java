@@ -27,26 +27,30 @@ public class DisciplineService {
     @Autowired
     private ConverterService converterService;
 
-    public void addDiscipline(DisciplineDTO disciplineDTO) {
+    public boolean addDiscipline(DisciplineDTO disciplineDTO) {
         Optional<Discipline> existingName = disciplineRepository.findByName(disciplineDTO.getName());
         Optional<Discipline> existingCode = disciplineRepository.findByCode(disciplineDTO.getCode());
         if (existingName.isPresent()) {
             exceptionsService.throwNameAlreadyExists(disciplineDTO.getName());
+            return false;
         }
         if (existingCode.isPresent()) {
             exceptionsService.throwCodeAlreadyExists(disciplineDTO.getCode());
+            return false;
         }
 
         Discipline discipline = converterService.toDiscipline(disciplineDTO);
 
         disciplineRepository.save(discipline);
+        return true;
     }
 
     @Transactional
-    public void updateDiscipline(DisciplineDTO disciplineDTO) {
+    public boolean updateDiscipline(DisciplineDTO disciplineDTO) {
         Optional<Discipline> existingDiscipline = disciplineRepository.findByCode(disciplineDTO.getCode());
         if (existingDiscipline.isEmpty()) {
             exceptionsService.throwDisciplineNotFound(disciplineDTO.getCode());
+            return false;
         }
 
         Discipline discipline = existingDiscipline.get();
@@ -59,16 +63,19 @@ public class DisciplineService {
         }
 
         disciplineRepository.save(discipline);
+        return true;
     }
 
     @Transactional
-    public void deleteDiscipline(String code) {
+    public boolean deleteDiscipline(String code) {
         Optional<Discipline> discipline = disciplineRepository.findByCode(code);
         if (discipline.isEmpty()) {
             exceptionsService.throwDisciplineNotFound(code);
+            return false;
         }
 
         disciplineRepository.delete(discipline.get());
+        return true;
     }
 
     public List<DisciplineDTO> findAll() {
@@ -82,35 +89,41 @@ public class DisciplineService {
         return disciplinesDTO;
     }
 
-    public void enrollStudent(String code, String registration) {
+    public boolean enrollStudent(String code, String registration) {
         Optional<Student> student = studentRepository.findByRegistration(registration);
         Optional<Discipline> discipline = disciplineRepository.findByCode(code);
 
         if(student.isEmpty()) {
             exceptionsService.throwIfStudentNotFound(registration);
+            return false;
         }
         if(discipline.isEmpty()) {
             exceptionsService.throwDisciplineNotFound(code);
+            return false;
         }
 
         discipline.get().getStudents().add(student.get());
 
         disciplineRepository.save(discipline.get());
+        return true;
     }
 
-    public void unenrollStudent(String code, String registration) {
+    public boolean unenrollStudent(String code, String registration) {
         Optional<Student> student = studentRepository.findByRegistration(registration);
         Optional<Discipline> discipline = disciplineRepository.findByCode(code);
 
         if(student.isEmpty()) {
             exceptionsService.throwIfStudentNotFound(registration);
+            return false;
         }
         if(discipline.isEmpty()) {
             exceptionsService.throwDisciplineNotFound(code);
+            return false;
         }
 
         discipline.get().getStudents().remove(student.get());
 
         disciplineRepository.save(discipline.get());
+        return true;
     }
 }

@@ -23,22 +23,25 @@ public class StudentService {
     @Autowired
     private ConverterService converterService;
 
-    public void addStudent(StudentDTO studentDTO) {
+    public boolean addStudent(StudentDTO studentDTO) {
         Optional<Student> existingStudent = studentRepository.findByRegistration(studentDTO.getRegistration());
         if (existingStudent.isPresent()) {
             exceptionsService.throwIfStudentExists(studentDTO.getRegistration());
+            return false;
         }
 
         Student student = converterService.toStudent(studentDTO);
 
         studentRepository.save(student);
+        return true;
     }
     
     @Transactional
-    public void updateStudent(StudentDTO studentDTO) {
+    public boolean updateStudent(StudentDTO studentDTO) {
         Optional<Student> existingStudent = studentRepository.findByRegistration(studentDTO.getRegistration());
         if (existingStudent.isEmpty()) {
             exceptionsService.throwIfStudentNotFound(studentDTO.getRegistration());
+            return false;
         }
 
         Student student = existingStudent.get();
@@ -54,16 +57,19 @@ public class StudentService {
         }
 
         studentRepository.save(student);
+        return true;
     }
 
     @Transactional
-    public void deleteStudent(String registration) {
+    public boolean deleteStudent(String registration) {
         Optional<Student> student = studentRepository.findByRegistration(registration);
         if (student.isEmpty()) {
             exceptionsService.throwIfStudentNotFound(registration);
+            return false;
         }
 
         studentRepository.delete(student.get());
+        return true;
     }
 
     public List<StudentDTO> findAll() {
