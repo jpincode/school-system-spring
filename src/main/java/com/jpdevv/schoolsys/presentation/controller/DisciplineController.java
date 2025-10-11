@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jpdevv.schoolsys.business.dto.DisciplineDTO;
@@ -59,8 +60,8 @@ public class DisciplineController {
         return (disciplines);
     }
 
-    @PostMapping("/{code}/{registration}")
-    public ResponseEntity<String> enrollStudent(@PathVariable String code, @PathVariable String registration) {
+    @PostMapping("/enroll")
+    public ResponseEntity<String> enrollStudent(@RequestParam String code, @RequestParam String registration) {
         boolean response = disciplineService.enrollStudent(code, registration);
         if (!response) {
             return new ResponseEntity<>("Could not enroll student!", HttpStatus.BAD_REQUEST);
@@ -69,8 +70,8 @@ public class DisciplineController {
         return new ResponseEntity<>("Student with registration '" + registration + "' enrolled in discipline with code '" + code + "' successfully", HttpStatus.OK);
     }
 
-    @DeleteMapping("/{code}/{registration}")
-    public ResponseEntity<String> unenrollStudent(@PathVariable String code, @PathVariable String registration) {
+    @DeleteMapping("/unenroll")
+    public ResponseEntity<String> unenrollStudent(@RequestParam String code, @RequestParam String registration) {
         boolean response = disciplineService.unenrollStudent(code, registration);
         if (!response) {
             return new ResponseEntity<>("Could not unenroll student!", HttpStatus.BAD_REQUEST);

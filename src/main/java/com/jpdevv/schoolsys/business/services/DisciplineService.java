@@ -93,8 +93,13 @@ public class DisciplineService {
         Optional<Student> student = studentRepository.findByRegistration(registration);
         Optional<Discipline> discipline = disciplineRepository.findByCode(code);
 
-        if(student.isEmpty()) {
+        if(student.isEmpty() || !student.isPresent()) {
             exceptionsService.throwIfStudentNotFound(registration);
+            return false;
+        }
+
+        if(discipline.get().getStudents().contains(student.get())) {
+            exceptionsService.throwIfStudentExists(registration);
             return false;
         }
         if(discipline.isEmpty()) {
@@ -112,11 +117,11 @@ public class DisciplineService {
         Optional<Student> student = studentRepository.findByRegistration(registration);
         Optional<Discipline> discipline = disciplineRepository.findByCode(code);
 
-        if(student.isEmpty()) {
+        if(student.isEmpty() || !student.isPresent()) {
             exceptionsService.throwIfStudentNotFound(registration);
             return false;
         }
-        if(discipline.isEmpty()) {
+        if(discipline.isEmpty() || !discipline.isPresent()) {
             exceptionsService.throwDisciplineNotFound(code);
             return false;
         }
