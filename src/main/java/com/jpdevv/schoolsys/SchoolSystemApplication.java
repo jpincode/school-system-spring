@@ -1,16 +1,11 @@
 package com.jpdevv.schoolsys;
 
-// import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-// import com.jpdevv.schoolsys.presentation.controller.MenuController;
-
 @SpringBootApplication
 public class SchoolSystemApplication implements CommandLineRunner {
-	// @Autowired
-	// private MenuController menuController;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(SchoolSystemApplication.class, args);
@@ -19,8 +14,6 @@ public class SchoolSystemApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		System.out.println("School System Application has started successfully!");
-		
-		// menuController.displayMainMenu();
 	}
 
 }
