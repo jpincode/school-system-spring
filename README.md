@@ -1,134 +1,162 @@
 ﻿# School Management System
 
 ## 📝 Description
-A Spring Boot application for managing students and disciplines in an educational institution. The project implements CRUD operations following a layered architecture with DTOs for data transfer, ensuring clean separation of concerns and maintainable code.
+A robust Spring Boot application for managing students and disciplines in educational institutions. The system is built with a layered architecture, using DTOs for data transfer, JPA for persistence, and includes comprehensive validation and exception handling. It supports full CRUD operations for both students and disciplines, as well as student enrollment in disciplines.
 
 ## 🏗️ Project Structure
 
 ```
 src/
-├── main/java/com/jpdevv/schoolsys/
-│   ├── business/
-│   │   ├── dto/
-│   │   │   ├── DisciplineDTO.java        # DTO for disciplines
-│   │   │   └── StudentDTO.java           # DTO for students
-│   │   └── services/
-│   │       ├── ConverterService.java      # Conversion between entities and DTOs
-│   │       ├── DisciplineService.java     # Business logic for disciplines
-│   │       ├── ExceptionsService.java     # Exception handling
-│   │       └── StudentService.java        # Business logic for students
-│   ├── model/
-│   │   ├── entities/
-│   │   │   ├── Discipline.java           # Discipline entity
-│   │   │   └── Student.java              # Student entity
-│   │   └── repositories/
-│   │       ├── DisciplineRepository.java  # JPA repository for disciplines
-│   │       └── StudentRepository.java     # JPA repository for students
-│   └── presentation/
-│       └── controller/
-│           ├── DisciplineController.java  # REST endpoints for disciplines
-│           ├── HomeController.java        # Web interface controller
-│           └── StudentController.java     # REST endpoints for students
-└── resources/
-    ├── application.properties            # Application configuration
-    ├── static/
-    │   └── style.css                    # CSS styles
-    └── templates/
-        └── index.html                   # Thymeleaf template
+├── main/
+│   ├── java/com/jpdevv/schoolsys/
+│   │   ├── SchoolSystemApplication.java         # Main Spring Boot application class
+│   │   ├── business/
+│   │   │   ├── dto/
+│   │   │   │   ├── DisciplineDTO.java          # DTO for discipline data transfer
+│   │   │   │   └── StudentDTO.java             # DTO for student data transfer
+│   │   │   └── services/
+│   │   │       ├── ConverterService.java       # Converts between DTOs and entities
+│   │   │       ├── DisciplineService.java      # Business logic for disciplines
+│   │   │       ├── ExceptionsService.java      # Centralized exception handling
+│   │   │       └── StudentService.java         # Business logic for students
+│   │   ├── model/
+│   │   │   ├── entities/
+│   │   │   │   ├── Discipline.java             # JPA entity for disciplines
+│   │   │   │   └── Student.java                # JPA entity for students
+│   │   │   └── repositories/
+│   │   │       ├── DisciplineRepository.java   # Repository for discipline persistence
+│   │   │       └── StudentRepository.java      # Repository for student persistence
+│   │   └── presentation/
+│   │       └── controller/
+│   │           ├── DisciplineController.java   # REST endpoints for disciplines
+│   │           └── StudentController.java      # REST endpoints for students
+├── resources/
+│   ├── application.properties                  # Spring Boot configuration
+│   ├── static/
+│   │   └── .gitkeep                            # Placeholder for static files (e.g., CSS)
+│   └── templates/
+│       └── .gitkeep                            # Placeholder for Thymeleaf templates
+├── test/
+│   └── java/com/jpdev/school_system/
+│       └── SchoolSystemApplicationTests.java   # Unit tests for the application
 ```
 
 ## 🚀 Features
 
-- **Student Management:**
-  - Create, read, update, and delete students
-  - Validate unique registration numbers and emails
-  - Track student information
+### Student Management
+- Create, read, update, and delete student records
+- Validate registration number format (`YYYY###`)
+- Ensure email uniqueness and proper format
+- Track address and contact information
+- Manage student status
 
-- **Discipline Management:**
-  - Create, read, update, and delete disciplines
-  - Manage discipline codes and workloads
-  - Track discipline information
+### Discipline Management
+- Create, read, update, and delete disciplines
+- Validate unique discipline code (`ABC###`)
+- Manage and validate workload (30-120 hours)
+- Handle course prerequisites
+- Track academic periods
+
+### Enrollment
+- Enroll students in disciplines
+- Unenroll students from disciplines
 
 ## 🛠️ Technologies Used
 
-- Java 21
-- Spring Boot 3.5.4
-- Spring Data JPA
-- PostgreSQL
-- Thymeleaf
-- Maven
-- Lombok
-- Spring Validation
+- **Java 21** (LTS)
+- **Spring Boot 3.5.4**
+  - Spring Web MVC
+  - Spring Data JPA
+  - Spring Validation
+- **PostgreSQL 15**
+- **Thymeleaf 3.1**
+- **Maven 3.9**
+- **Lombok 1.18**
+- **JUnit 5 & Mockito**
 
 ## ⚙️ How to Run
 
 ### Prerequisites
-- Java Development Kit (JDK) 21
-- PostgreSQL
-- Maven
+- JDK 21
+- PostgreSQL 15+
+- Maven 3.9+
 - Git
 
 ### Steps to Run
 
-1. Clone the repository:
-```bash
-git clone https://github.com/jpdevv/school-system-spring.git
-```
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/jpdevv/school-system-spring.git
+   cd school-system-spring
+   ```
 
-2. Configure database in `application.properties`:
-```properties
-spring.datasource.url=jdbc:postgresql://localhost:5432/schoolsystem
-spring.datasource.username=your_username
-spring.datasource.password=your_password
-```
+2. **Configure the database in `application.properties`:**
+   ```properties
+   spring.datasource.url=jdbc:postgresql://localhost:5432/schoolsystem
+   spring.datasource.username=your_username
+   spring.datasource.password=your_password
+   spring.jpa.hibernate.ddl-auto=update
+   spring.jpa.show-sql=true
+   ```
 
-3. Build and run:
-```bash
-mvn clean install
-mvn spring-boot:run
-```
+3. **Build and run the application:**
+   ```bash
+   mvn clean install
+   mvn spring-boot:run
+   ```
 
 ## 📱 API Endpoints
 
 ### Students
-- `GET /students` - List all students
-- `POST /students` - Create new student
-- `PUT /students/{id}` - Update student
-- `DELETE /students/{id}` - Delete student
+- `GET /api/students` — Retrieve all students
+- `POST /api/students` — Create a new student
+- `PUT /api/students/{id}` — Update an existing student
+- `DELETE /api/students/{id}` — Delete a student
 
 ### Disciplines
-- `GET /disciplines` - List all discipline
-- `POST /disciplines` - Create new discipline
-- `PUT /disciplines/{id}` - Update discipline
-- `DELETE /disciplines/{id}` - Delete discipline
+- `GET /api/disciplines` — Retrieve all disciplines
+- `POST /api/disciplines` — Create a new discipline
+- `PUT /api/disciplines` — Update an existing discipline
+- `DELETE /api/disciplines/{code}` — Delete a discipline
+
+### Enrollment
+- `POST /api/disciplines/enroll?code={code}&registration={registration}` — Enroll a student in a discipline
+- `DELETE /api/disciplines/unenroll?code={code}&registration={registration}` — Unenroll a student from a discipline
 
 ## 🏗️ Architecture
 
-- **Presentation Layer:** Controllers handling HTTP requests and responses
-- **Business Layer:** Services implementing business logic and validation
-- **Data Layer:** JPA repositories and entities for persistence
-- **DTOs:** Objects for data transfer between layers
+- **Presentation Layer:** REST controllers for handling HTTP requests and responses, input validation
+- **Business Layer:** Services implementing business logic, validation, and transaction management
+- **Data Layer:** JPA repositories for database operations, entity management
+- **DTOs:** Used for transferring data between layers
+- **Exception Handling:** Centralized service for managing application errors
 
 ## 🔍 Validations
 
-- Unique student registration numbers
-- Unique student emails
-- Required fields validation
-- Business rule validations in service layer
+### Student Validations
+- Registration number: must follow the `YYYY###` pattern (e.g., 2023001)
+- Email: must be valid and unique
+- Required fields: name, email, registration
+
+### Discipline Validations
+- Code: must follow the `ABC###` pattern (e.g., MAT101)
+- Workload: must be between 30 and 120 hours
+- Required fields: code, name, workload
 
 ## 🤝 Contributing
 
 1. Fork the project
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
+2. Create your feature branch (`git checkout -b feature/NewFeature`)
+3. Commit your changes (`git commit -m 'Add NewFeature'`)
+4. Push to the branch (`git push origin feature/NewFeature`)
 5. Open a Pull Request
 
 ## 📫 Contact
 
 - Email: joaoaraujo.developer@gmail.com
-- GitHub: [jpincode](https://github.com/jpincode)
+- GitHub: [@jpincode](https://github.com/jpincode)
 
 ## 📄 License
-This project is under the MIT license. See the [LICENSE](LICENSE) file for more details.
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
