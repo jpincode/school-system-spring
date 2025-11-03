@@ -64,7 +64,7 @@ src/
 ## 🛠️ Technologies Used
 
 - **Java 21** (LTS)
-- **Spring Boot 3.5.4**
+- **Spring Boot 3.5.x**
   - Spring Web MVC
   - Spring Data JPA
   - Spring Validation
