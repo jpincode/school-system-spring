@@ -69,7 +69,6 @@ src/
   - Spring Data JPA
   - Spring Validation
 - **PostgreSQL 15**
-- **Thymeleaf 3.1**
 - **Maven 3.9**
 - **Lombok 1.18**
 - **JUnit 5 & Mockito**
