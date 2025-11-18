@@ -19,6 +19,7 @@ public class Student {
     @Column(nullable = false)
     private String name;
 
+    @Column(unique = true)
     private String registration;
     private String email;
     private String address;

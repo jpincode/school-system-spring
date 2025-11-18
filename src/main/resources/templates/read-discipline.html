@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disciplinas</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            color: rgba(255,255,255,0.8);
+            font-size: 1.1rem;
+        }
+
+        table {
+            width: 100%;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        th {
+            color: white;
+            padding: 20px;
+            text-align: left;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 14px;
+        }
+
+        tbody tr {
+            transition: all 0.3s ease;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        tbody tr:hover {
+            background-color: #f8f9ff;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
+        }
+
+        td {
+            padding: 18px 20px;
+            color: #333;
+            font-size: 15px;
+        }
+
+        td:first-child {
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        td:nth-child(3) {
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+
+        .empty-state h3 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        @keyframes fadeIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(20px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+
+        table {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        tbody tr {
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            table {
+                font-size: 14px;
+            }
+
+            th, td {
+                padding: 12px 15px;
+            }
+
+            .container {
+                overflow-x: auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            th, td {
+                padding: 10px 12px;
+                font-size: 13px;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+        }
+
+        .workload-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .refresh-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .refresh-btn:hover {
+            background: rgba(255,255,255,0.3);
+            border-color: rgba(255,255,255,0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 Disciplinas Cadastradas</h1>
+            <p>Lista completa de disciplinas disponíveis</p>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Nome</th>
+                    <th>Carga Horária</th>
+                </tr>
+            </thead>
+            <tbody id="body-table"></tbody>
+        </table>
+
+        <div style="text-align: center;">
+            <button class="refresh-btn" onclick="loadDisciplines()">
+                <span class="spinner" id="refresh-spinner" style="display: none;"></span>
+                <span id="refresh-text">🔄 Atualizar Lista</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const tableBody = document.getElementById("body-table");
+        const refreshSpinner = document.getElementById("refresh-spinner");
+        const refreshText = document.getElementById("refresh-text");
+
+        function loadDisciplines(showLoading = true) {
+            if (showLoading) {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="3" class="empty-state">
+                            <div class="spinner"></div>
+                            <p>Carregando disciplinas...</p>
+                        </td>
+                    </tr>
+                `;
+            }
+
+            refreshSpinner.style.display = 'inline-block';
+            refreshText.textContent = ' Carregando...';
+
+            fetch("/api/disciplines", {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(response => {
+                if (!response.ok) {
+                    throw new Error("Erro ao buscar disciplinas!");
+                }
+                return response.json();
+            }).then(data => {
+                tableBody.innerHTML = '';
+                
+                if (data.length === 0) {
+                    tableBody.innerHTML = `
+                        <tr>
+                            <td colspan="3" class="empty-state">
+                                <h3>📝 Nenhuma disciplina encontrada</h3>
+                                <p>Não há disciplinas cadastradas no momento.</p>
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+
+                data.forEach(discipline => {
+                    const row = document.createElement("tr");
+                    row.style.animationDelay = `${data.indexOf(discipline) * 0.1}s`;
+
+                    row.innerHTML = `
+                        <td>${discipline.code}</td>
+                        <td>${discipline.name}</td>
+                        <td><span class="workload-badge">${discipline.workload}h</span></td>
+                    `;
+
+                    tableBody.appendChild(row);
+                });
+            }).catch(error => {
+                console.error('Erro:', error);
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="3" class="empty-state">
+                            <h3>❌ Erro ao carregar</h3>
+                            <p>${error.message}</p>
+                        </td>
+                    </tr>
+                `;
+            }).finally(() => {
+                refreshSpinner.style.display = 'none';
+                refreshText.innerHTML = '🔄 Atualizar Lista';
+            });
+        }
+
+        addEventListener("DOMContentLoaded", () => {
+            loadDisciplines();
+        });
+
+        setInterval(() => {
+            loadDisciplines(false);
+        }, 30000);
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const title = document.querySelector('.header h1');
+            const originalText = title.textContent;
+            title.textContent = '';
+            
+            let i = 0;
+            const typeWriter = () => {
+                if (i < originalText.length) {
+                    title.textContent += originalText.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 100);
+                }
+            };
+            typeWriter();
+        });
+    </script>
+</body>
+</html>
